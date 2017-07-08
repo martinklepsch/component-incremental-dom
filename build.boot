@@ -2,17 +2,15 @@
  :source-paths    #{"src/cljs"}
  :resource-paths  #{"resources"}
  :dependencies '[[adzerk/boot-cljs          "2.0.0"      :scope "test"]
-                 [adzerk/boot-cljs-repl     "0.3.3"      :scope "test"]
                  [adzerk/boot-reload        "0.5.1"      :scope "test"]
                  [pandeiro/boot-http        "0.8.3"      :scope "test"]
-                 [com.cemerick/piggieback   "0.2.1"      :scope "test"]
-                 [org.clojure/tools.nrepl   "0.2.13"     :scope "test"]
-                 [weasel                    "0.7.0"      :scope "test"]
-                 [org.clojure/clojurescript "1.9.562"]])
+                 [cljsjs/incremental-dom    "0.5.2-0"]
+                 #_[org.clojure/clojurescript "1.9.495"] ; works
+                 [org.clojure/clojurescript "1.9.518"] ; broken
+                 #_[org.clojure/clojurescript "0.0-SNAPSHOT"]])
 
 (require
  '[adzerk.boot-cljs      :refer [cljs]]
- '[adzerk.boot-cljs-repl :refer [cljs-repl start-repl]]
  '[adzerk.boot-reload    :refer [reload]]
  '[pandeiro.boot-http    :refer [serve]])
 
@@ -22,9 +20,7 @@
    to change parameters (like optimizations level of the cljs compiler)"
   []
   (comp (speak)
-        
-        (cljs)
-        ))
+        (cljs)))
 
 (deftask run
   "The `run` task wraps the building of your application in some
@@ -33,8 +29,6 @@
   []
   (comp (serve)
         (watch)
-        (cljs-repl)
-        
         (reload)
         (build)))
 

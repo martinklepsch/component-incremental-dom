@@ -1,6 +1,12 @@
-(ns cinc.app)
+(ns cinc.app
+  (:require [incremental-dom :as inc-dom]))
+
+(defn render [txt]
+  (inc-dom/elementOpen "div")
+  (inc-dom/text txt)
+  (inc-dom/elementClose "div"))
 
 (defn init []
-  (let [c (.. js/document (createElement "DIV"))]
-    (aset c "innerHTML" "<p>i'm dynamically created</p>")
-    (.. js/document (getElementById "container") (appendChild c))))
+  (inc-dom/patch 
+   (.getElementById js/document "container")
+   #(render "test")))
